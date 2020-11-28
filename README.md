@@ -10,7 +10,7 @@ O sistema se trata de uma aplicação Web, cuja funcionalidade consiste na pesqu
 - Back End escrito em Ruby on Rails, utilizado em modo API;
 - Banco de Dados PostgreSQL;
 
-Para executar a aplicação na sua máquina, basta seguir o passo-a-passo descrito no arquivo Descricao-e-Instrucoes.md.
+Para executar a aplicação na sua máquina, basta seguir o passo-a-passo descrito no arquivo [Descrição e Instruções](Descricao-e-Instrucoes.md).
 
 ## Critérios de avaliação
 
