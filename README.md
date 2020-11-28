@@ -1,85 +1,42 @@
-<div style="text-align: center;">
-  <h1>
-    Github profile indexer
-  </h1>
-</div>
+# Trabalho Individual - GCES - 2020/1
 
-## Instalação
+A Gestão de Configuração de Software é parte fundamental no curso de GCES, e dominar os conhecimentos de configuração de ambiente, containerização, virtualização, integração e deploy contínuo tem se tornado cada vez mais necessário para ingressar no mercado de trabalho.
 
-Antes de começar, para executar os serviços, é recomendado que você tenha instalado:
+Para exercitar estes conhecimentos, você deverá aplicar os conceitos estudados ao longo da disciplina no produto de software contido neste repositório.
 
-* ruby - 2.5.7, bundle, rails e rake
-* postgresql (sendo importante também instalar o pacote libpq-dev)
-* nodejs e yarn (para gerenciar os pacotes necessários do front end - client)
+O sistema se trata de uma aplicação Web, cuja funcionalidade consiste na pesquisa e exibição de perfis de usuários do GitHub, que é composta de:
 
-### API
+- Front End escrito em Javascript, utilizando os frameworks Vue.JS e Quasar;
+- Back End escrito em Ruby on Rails, utilizado em modo API;
+- Banco de Dados PostgreSQL;
 
-Instale as dependências do sistema com:
+Para executar a aplicação na sua máquina, basta seguir o passo-a-passo descrito no arquivo Descricao-e-Instrucoes.md.
 
-```bash
-$ bundle install
-```
+## Critérios de avaliação
 
-Inicie o server:
+### 1. Containerização
 
-```bash
-$ rails server
-```
+A aplicação deverá ter seu ambiente completamente containerizado. Desta forma, cada subsistema (Front End, Back End e Banco de Dados) deverá ser isolado em um container individual.
 
-### Client
+Deverá ser utilizado um orquestrador para gerenciar comunicação entre os containers, o uso de credenciais, networks, volumes, entre outras configurações necessárias para a correta execução da aplicação.
 
-Instale as dependências do sistema com:
+Para realizar esta parte do trabalho, recomenda-se a utilização das ferramentas:
 
-```bash
-$ yarn install
-```
+- Docker versão 17.04.0+
+- Docker Compose com sintaxe na versão 3.2+
 
-Inicie o server:
+### 2. Integração contínua
 
-```bash
-$ yarn dev
-```
+Você deverá criar um 'Fork' deste repositório, onde será desenvolvida sua solução. Nele, cada commit submetido deverá passar por um sistema de integração contínua, realizando os seguintes estágios:
 
-Após o ambiente ter iniciado, a API se encontra acessável em na porta [localhost:3000](http://localhost:3000) e o front-end na porta [localhost:8080](https://localhost:8080).
+- Build: Construção completa do ambiente;
+- Testes: Os testes automatizados da aplicação devem ser executados;
+- Coleta de métricas: Deverá ser realizada a integração com algum serviço externo de coleta de métricas de qualidade;
 
-### Execução dos testes
+O sistema de integração contínua deve exibir as informações de cada pipeline, e impedir que trechos de código que não passem corretamente por todo o processo sejam adicionados à 'branch default' do repositório.
 
-Para executar os testes, é necessário executar a suíte de testes de cada tecnologia:
+Para esta parte do trabalho, poderá ser utilizada qualquer tecnologia ou ferramenta que o aluno desejar, como GitlabCI, TravisCI, CircleCI, Jenkins, CodeClimate, entre outras.
 
-```bash
-# api
-$ bundle exec rails test
+### 3. Deploy contínuo (Extra)
 
-# ou para o front
-$ yarn run test:unit
-```
-
-## Requisitos e implementação
-
-### Requisitos
-| ID | Nome | Descrição |
-| -- | ---- | --------- |
-| 1 | Cadastro de perfis | Deve-se haver uma página para cadastrar um nome e o endereço da página de perfil do Github desse novo membro. |
-| 2 | Webscrapper | Quando o cadastro de um novo membro for realizado, então através de um webscrapper deve-se recuperar e armazenar da página do Github as informações:<ul><li>Nome de usuário do Github</li><li>Número de Followers</li><li>Número de Following</li><li>Número de Stars</li><li>Número de contribuições no último ano</li><li>URL da imagem de perfil</li><li>Email</li><li>Localização</li></ul> |
-| 3 | Encurtamento de URLs | Ao cadastrar um perfil, a URL do Github deverá ser armazenada de forma encurtada, por exemplo, https://bitly.com/. |
-| 4 | Atualizar perfil por re-scan | Após cadastrado, também deve ser possível escanear (de forma manual) o perfil do Github em busca de novas informações que possam ter sido adicionadas. |
-| 5 | Interface do usuário | <ul><li>A página principal do sistema deverá exibir um campo de busca.</li><li>A busca poderá ser preenchida com qualquer informação do perfil (nome, usuário do Github, organização, localização, etc).</li><li>Os resultados deverão ser uma lista de usuários contendo nome, URL encurtada do perfil do Github e botões para editar/visualizar o registro.</li><li>A página de perfil deverá exibir todos os campos salvos.</li><li>Deve-se exibir a imagem de perfil do usuário utilizando a URL salva do Github.</li><li>Deve-se adicionar botões para re-escanear/editar/remover o registro. OBS: deve-se apenas editar o nome e URL, já que os outros dados serão extraídos com Webscrapper.</li></ul> |
-
-### Detalhes da solução
-
-<!-- TODO: ver se faz sentido manter -->
-
-#### Perfil de usuário
-O perfil de usuário abrange os requisitos 1, 2 e 3. De forma breve, a modelo `Profile` recebe como argumentos o nome e a URL do Github e, durante o ciclo `before_validation`, executa o webcrapping do perfil, coletando as outras informações além de validar a URL e se a página é ou não um perfil de usuário no Github. Neste ponto também são encurtadas as URLs de perfil e de imagem de perfil. Após a validação dos dados coletados, o objeto então é processado.
-
-O encurtamento de URLs é feito a partir do serviço `tinyurl` a partir da gem `shorturl`, enquanto a busca é feita com o auxílio de funcionalidades de pesquisa de texto presentes no postgres com a gem `pg_search`.
-
-#### Atualização de perfil por re-escaneamento
-Por meio do endpoint de `update` do profile é possível executar esta funcionalidade, a diferença é que devem ser passados os valores de nome e URL já presentes no perfil. Decidi manter desta forma pois no final esta funcionalidade é uma atualização sem edição.
-
-#### Busca e interface de usuário
-Como dito anteriormente, a busca ocorre com a ajuda da gem `pg_search`, com ela é definido um escopo de busca que abrange os campos de nome, nome de usuário, localização e organizações. A busca é feita pelo prefixo de qualquer palavra presentes nestes campos.
-
-Os resultados da pesquisa são exibidos em lista, abaixo da barra de busca, em cada entrada têm-se  o nome de usuário, a imagem de usuário, o username e a url do perfil encurtada além das ações de editar, vizualizar e deletar aquele perfil. Essas opções, assim como todas as informações coletadas estão tambem presentes na página de visualização do perfil.
-
-Em todas as páginas é exibido um botão de adicionar novo perfil, e tanto ele quanto os botões de edição e deleção, exibem uma modal com formulários ou confirmações.
+Caso cumpra todos os requisitos descritos acima, será atribuída uma pontuação extra para o aluno que configure sua pipeline de modo a publicar a aplicação automaticamente, sempre que um novo trecho de código seja integrado à branch default.
