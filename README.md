@@ -6,7 +6,39 @@
 
 ## Instalação
 
-<!-- TODO -->
+Antes de começar, para executar os serviços, é recomendado que você tenha instalado:
+
+* ruby - 2.5.7, bundle, rails e rake
+* postgresql (sendo importante também instalar o pacote libpq-dev)
+* nodejs e yarn (para gerenciar os pacotes necessários do front end - client)
+
+### API
+
+Instale as dependências do sistema com:
+
+```bash
+$ bundle install
+```
+
+Inicie o server:
+
+```bash
+$ rails server
+```
+
+### Client
+
+Instale as dependências do sistema com:
+
+```bash
+$ yarn install
+```
+
+Inicie o server:
+
+```bash
+$ yarn dev
+```
 
 Após o ambiente ter iniciado, a API se encontra acessável em na porta [localhost:3000](http://localhost:3000) e o front-end na porta [localhost:8080](https://localhost:8080).
 
