@@ -49,7 +49,12 @@ Instale as dependências do sistema com:
 ```bash
 $ bundle install
 ```
-
+```bash
+$ rake db:create
+```
+```bash
+$ rake db:migrate
+```
 Inicie o server:
 
 ```bash
