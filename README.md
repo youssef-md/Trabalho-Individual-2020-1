@@ -40,3 +40,27 @@ Para esta parte do trabalho, poderá ser utilizada qualquer tecnologia ou ferram
 ### 3. Deploy contínuo (Extra)
 
 Caso cumpra todos os requisitos descritos acima, será atribuída uma pontuação extra para o aluno que configure sua pipeline de modo a publicar a aplicação automaticamente, sempre que um novo trecho de código seja integrado à branch default.
+
+---
+### Solução
+
+Aluno: Youssef Muhamad | 17/0024334
+
+#### Conteinerização:
+
+- O projeto foi dividido em 3 containers(frontend, backend e banco de dados), para isso foi utilizado o Docker e o Docker Compose.
+
+- A env `/docker/db_config.env` foi criada para facilitar a mudança nas variáveis do PostgreSQL.
+
+### Como executar o projeto:
+
+- `docker-compose up`
+
+Após o comando terminar de executar, as aplicações estarão nas urls:
+
+- Frontend : http://localhost:8080/
+- Backend : http://localhost:3000
+
+Para rodar os testes nos ambientes já dockerizados:
+- Frontend: `docker-compose run frontend yarn run test:unit`
+- Backend: `docker-compose run api bundle exec rails test`
